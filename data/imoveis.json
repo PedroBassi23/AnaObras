@@ -1,0 +1,71 @@
+[
+  {
+    "id": "001",
+    "type": "projeto",
+    "title": "Reforma Cozinha Moderna - Antes/Depois",
+    "summary": "Cozinha compacta transformada com layout aberto e armários planejados.",
+    "description": "Reforma completa da cozinha, incluindo abertura de parede, novos revestimentos e armários planejados.",
+    "price": 0,
+    "area": 12,
+    "bedrooms": 0,
+    "bairro": "Bairro Exemplo",
+    "images": [
+      "https://images.unsplash.com/photo-1600585154340-be6161a56a0c?q=80&w=1400&auto=format&fit=crop&ixlib=rb-4.0.3&s=placeholder",
+      "https://images.unsplash.com/photo-1505691723518-36a3f1f6d6d4?q=80&w=1400&auto=format&fit=crop&ixlib=rb-4.0.3&s=placeholder"
+    ]
+  },
+  {
+    "id": "002",
+    "type": "projeto",
+    "title": "Banheiro Renovado - Projeto Compacto",
+    "summary": "Banheiro otimizado com bancada e nichos embutidos.",
+    "description": "Renovação do banheiro com novas louças, revestimentos e iluminação embutida.",
+    "price": 0,
+    "area": 6,
+    "bedrooms": 0,
+    "bairro": "Bairro Exemplo",
+    "images": [
+      "https://images.unsplash.com/photo-1505693416388-ac5ce068fe85?q=80&w=1400&auto=format&fit=crop&ixlib=rb-4.0.3&s=placeholder"
+    ]
+  },
+  {
+    "id": "101",
+    "type": "imovel",
+    "title": "Apartamento 2 dorm • 80 m² • Bairro X",
+    "description": "Apartamento reformado com cozinha planejada, sala integrada e varanda. Condomínio com área de lazer.",
+    "price": 450000,
+    "area": 80,
+    "bedrooms": 2,
+    "bairro": "Bairro X",
+    "images": [
+      "https://images.unsplash.com/photo-1599423300746-b62533397364?q=80&w=1400&auto=format&fit=crop&ixlib=rb-4.0.3&s=placeholder",
+      "https://images.unsplash.com/photo-1580587771525-78b9dba3b914?q=80&w=1400&auto=format&fit=crop&ixlib=rb-4.0.3&s=placeholder"
+    ]
+  },
+  {
+    "id": "102",
+    "type": "imovel",
+    "title": "Casa 3 dorm • 150 m² • Bairro Y",
+    "description": "Casa térrea com quintal, cozinha americana e suíte principal. Ideal para família.",
+    "price": 780000,
+    "area": 150,
+    "bedrooms": 3,
+    "bairro": "Bairro Y",
+    "images": [
+      "https://images.unsplash.com/photo-1560448204-e02f11c3d0e2?q=80&w=1400&auto=format&fit=crop&ixlib=rb-4.0.3&s=placeholder"
+    ]
+  },
+  {
+    "id": "103",
+    "type": "imovel",
+    "title": "Kitnet mobiliada • 30 m² • Bairro Z",
+    "description": "Unidade compacta e moderna, ótima para investimento e locação de curto prazo.",
+    "price": 220000,
+    "area": 30,
+    "bedrooms": 1,
+    "bairro": "Bairro Z",
+    "images": [
+      "https://images.unsplash.com/photo-1496412705862-e0088f16f791?q=80&w=1400&auto=format&fit=crop&ixlib=rb-4.0.3&s=placeholder"
+    ]
+  }
+]

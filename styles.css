@@ -1,0 +1,62 @@
+/* styles.css - MVP professional look (mobile-first) */
+:root{
+  --max-width:1100px; --accent:#0ea5a4; --muted:#6b7280; --bg:#f8fafc; --card:#ffffff;
+  --radius:12px;
+}
+*{box-sizing:border-box}
+body{font-family:Inter,system-ui,-apple-system,Segoe UI,Roboto,"Helvetica Neue",Arial; margin:0; background:var(--bg); color:#111;}
+.container{max-width:var(--max-width); margin:0 auto; padding:1rem;}
+.site-header{background:#fff; border-bottom:1px solid #e6eaf0; position:sticky; top:0; z-index:50;}
+.header-inner{display:flex; align-items:center; gap:1rem; padding:0.75rem 0;}
+.brand{font-weight:700; margin:0; font-size:1.05rem;}
+.nav{margin-left:auto; display:flex; gap:0.5rem;}
+.nav-link{color:#111; text-decoration:none; padding:0.35rem 0.6rem; border-radius:8px;}
+.nav-link:hover{background:#f0f6f7}
+.whatsapp-btn{margin-left:1rem; background:var(--accent); color:#fff; padding:0.45rem 0.7rem; border-radius:8px; text-decoration:none; font-weight:600}
+
+.hero{padding:2rem 0;}
+.hero-grid{display:grid; grid-template-columns:1fr; gap:1rem; align-items:center;}
+.hero .lead{color:var(--muted); margin-top:0.4rem;}
+.hero-image img{width:100%; border-radius:12px; display:block; height:240px; object-fit:cover;}
+
+.section{padding:2rem 0;}
+.section h3{margin:0 0 0.5rem 0;}
+.muted{color:var(--muted); margin-bottom:1rem;}
+
+.grid{display:grid; grid-template-columns:1fr; gap:1rem;}
+.card{background:var(--card); border-radius:var(--radius); padding:0.75rem; box-shadow:0 6px 18px rgba(10,15,30,0.05); overflow:hidden;}
+.card img{width:100%; display:block; border-radius:8px; height:180px; object-fit:cover;}
+.card h4{margin:0.6rem 0 0.25rem 0; font-size:1rem;}
+.card p{margin:0; color:var(--muted); font-size:0.95rem;}
+
+.controls{display:flex; flex-direction:column; gap:0.75rem; margin-bottom:1rem;}
+.controls .filter{display:flex; flex-direction:column;}
+.controls label{font-size:0.85rem; color:var(--muted); margin-bottom:0.25rem}
+.controls input, .controls select{padding:0.5rem; border-radius:8px; border:1px solid #e6e9ef; background:#fff}
+
+.contact-grid{display:grid; gap:1rem;}
+.contact-form{display:flex; flex-direction:column; gap:0.5rem; background:var(--card); padding:1rem; border-radius:12px;}
+.contact-info{padding:1rem; background:#fff; border-radius:12px; box-shadow:0 6px 18px rgba(10,15,30,0.03)}
+
+.btn{background:var(--accent); color:#fff; padding:0.6rem 0.9rem; border-radius:10px; text-decoration:none; display:inline-block; border:none; cursor:pointer; font-weight:600}
+.btn-ghost{background:transparent; color:var(--accent); border:2px solid var(--accent)}
+
+.hero-ctas{display:flex; gap:0.5rem; margin-top:1rem}
+
+/* Modal */
+.modal{position:fixed; inset:0; display:none; align-items:center; justify-content:center; background:rgba(0,0,0,0.45); padding:1rem;}
+.modal[aria-hidden="false"]{display:flex}
+.modal-dialog{background:#fff; border-radius:12px; max-width:900px; width:100%; max-height:90vh; overflow:auto; padding:1rem; position:relative;}
+.modal-close{position:absolute; right:12px; top:8px; background:transparent; border:none; font-size:1.5rem; cursor:pointer}
+
+/* Responsive */
+@media(min-width:780px){
+  .hero-grid{grid-template-columns:1fr 420px}
+  .grid{grid-template-columns:repeat(2,1fr)}
+  .contact-grid{grid-template-columns:1fr 320px}
+}
+@media(min-width:1100px){
+  .grid{grid-template-columns:repeat(3,1fr)}
+}
+.footer{padding:2rem 0}
+.site-footer{border-top:1px solid #e6eaf0; background:#fff; padding:1rem 0; margin-top:2rem}

@@ -1,0 +1,127 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Portfólio de Reformas & Imóveis</title>
+  <meta name="description" content="Portfólio de reformas e vitrine de imóveis. Veja projetos, compare e agende visitas via WhatsApp." />
+  <link rel="stylesheet" href="styles.css" />
+  <link rel="icon" href="data:;base64,iVBORw0KGgo=">
+</head>
+<body>
+  <header class="site-header">
+    <div class="container header-inner">
+      <h1 class="brand">Portfólio de Reformas & Imóveis</h1>
+      <nav class="nav">
+        <a href="#projetos" class="nav-link">Projetos</a>
+        <a href="#imoveis" class="nav-link">Imóveis</a>
+        <a href="#contato" class="nav-link">Contato</a>
+      </nav>
+      <a class="whatsapp-btn" id="whatsappBtn" href="#" target="_blank" rel="noopener">WhatsApp</a>
+    </div>
+  </header>
+
+  <main>
+    <section class="hero">
+      <div class="container">
+        <div class="hero-grid">
+          <div>
+            <h2>Transformamos espaços. Vendemos lares.</h2>
+            <p class="lead">Veja nossos projetos de reforma e encontre imóveis prontos para morar — tudo com visual limpo, fotos antes/depois e agendamento direto.</p>
+            <div class="hero-ctas">
+              <a href="#projetos" class="btn">Ver Projetos</a>
+              <a href="#imoveis" class="btn btn-ghost">Ver Imóveis</a>
+            </div>
+          </div>
+          <div class="hero-image">
+            <img src="https://images.unsplash.com/photo-1560448204-e02f11c3d0e2?q=80&w=1200&auto=format&fit=crop&ixlib=rb-4.0.3&s=placeholder" alt="Reforma moderna" />
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section id="projetos" class="section">
+      <div class="container">
+        <h3>Projetos de Reformas (Antes / Depois)</h3>
+        <p class="muted">Casos selecionados para mostrar nosso trabalho — clique para ver detalhes.</p>
+        <div id="projetosGrid" class="grid"></div>
+      </div>
+    </section>
+
+    <section id="imoveis" class="section">
+      <div class="container">
+        <h3>Imóveis à Venda</h3>
+        <div class="controls">
+          <div class="filter">
+            <label>Buscar:</label>
+            <input id="searchInput" placeholder="bairro, tipo ou palavra-chave" />
+          </div>
+          <div class="filter">
+            <label>Quartos</label>
+            <select id="bedroomsFilter">
+              <option value="">Todos</option>
+              <option value="1">1+</option>
+              <option value="2">2+</option>
+              <option value="3">3+</option>
+            </select>
+          </div>
+          <div class="filter">
+            <label>Ordenar</label>
+            <select id="sortSelect">
+              <option value="default">Padrão</option>
+              <option value="price-asc">Preço ↑</option>
+              <option value="price-desc">Preço ↓</option>
+              <option value="area-desc">Área ↓</option>
+            </select>
+          </div>
+        </div>
+
+        <div id="imoveisGrid" class="grid"></div>
+      </div>
+    </section>
+
+    <section id="contato" class="section contact-section">
+      <div class="container">
+        <h3>Contato</h3>
+        <p class="muted">Agende uma visita ou peça um orçamento via WhatsApp ou formulário.</p>
+        <div class="contact-grid">
+          <form id="contactForm" action="https://formspree.io/f/maylpkjy" method="POST" class="contact-form">
+            <label>Nome</label>
+            <input name="name" required />
+            <label>Telefone ou WhatsApp</label>
+            <input name="phone" required />
+            <label>Mensagem</label>
+            <textarea name="message" rows="4" required></textarea>
+            <button class="btn" type="submit">Enviar</button>
+          </form>
+          <div class="contact-info">
+            <h4>Fale conosco</h4>
+            <p>WhatsApp: <a id="whatsappLink" href="#" target="_blank" rel="noopener">Enviar mensagem</a></p>
+            <p>Endereço: Rua Exemplo, 123 — Bairro X, Sua Cidade</p>
+            <p>Horário: Seg–Sex 09:00–18:00</p>
+            <h4>Depoimentos</h4>
+            <blockquote class="testimonial">"Excelente trabalho — reforma entregue no prazo e com cuidado nos detalhes." — Cliente Satisfeito</blockquote>
+          </div>
+        </div>
+      </div>
+    </section>
+
+  </main>
+
+  <footer class="site-footer">
+    <div class="container">
+      <p>© <span id="year"></span> Portfólio de Reformas & Imóveis — Desenvolvido como MVP estático.</p>
+    </div>
+  </footer>
+
+  <!-- Modal template for detail -->
+  <div id="detailModal" class="modal" aria-hidden="true">
+    <div class="modal-dialog">
+      <button class="modal-close" aria-label="Fechar">×</button>
+      <div id="modalContent"></div>
+    </div>
+  </div>
+
+  <script src="app.js"></script>
+</body>
+</html>
