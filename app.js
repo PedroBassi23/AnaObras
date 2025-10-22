@@ -1,172 +1,199 @@
-// app.js - client-side logic for the static MVP
+// app.js - Evolved client-side logic
 const imoveisUrl = 'data/imoveis.json';
-let imoveis = [];
+let allData = [];
 
+// --- Main execution ---
 document.addEventListener('DOMContentLoaded', () => {
-  document.getElementById('year').textContent = new Date().getFullYear();
-  setupWhatsApp();
-  fetch(imoveisUrl).then(r => r.json()).then(data => {
-    imoveis = data;
-    renderProjetos();
-    renderImoveis(imoveis);
-  });
+  // Initial setup
+  initializeYear();
+  setupEventListeners();
 
-  // filters
-  document.getElementById('searchInput').addEventListener('input', (e) => {
-    applyFilters();
-  });
-  document.getElementById('bedroomsFilter').addEventListener('change', applyFilters);
-  document.getElementById('sortSelect').addEventListener('change', applyFilters);
-
-  // modal close
-  document.querySelector('.modal-close').addEventListener('click', closeModal);
-  document.getElementById('detailModal').addEventListener('click', (e) => {
-    if (e.target.id === 'detailModal') closeModal();
-  });
+  // Fetch and render data
+  fetchAndRenderData();
 });
 
-function setupWhatsApp(){
-  const phone = '5516999999999'; // substitua pelo número real com DDI+DDD+numero
-  const msg = encodeURIComponent('Olá! Tenho interesse em um imóvel / orçamento.');
-  const link = `https://wa.me/${phone}?text=${msg}`;
-  document.getElementById('whatsappBtn').href = link;
-  document.getElementById('whatsappLink').href = link;
+
+// --- Setup Functions ---
+function initializeYear() {
+  const yearEl = document.getElementById('year');
+  if (yearEl) {
+    yearEl.textContent = new Date().getFullYear();
+  }
 }
 
-function renderProjetos(){
-  const grid = document.getElementById('projetosGrid');
-  const projetos = imoveis.filter(i => i.type === 'projeto');
-  grid.innerHTML = projetos.map(p => projectCardHtml(p)).join('');
-  // attach click
-  projetos.forEach(p => {
-    const btn = document.querySelector(`[data-id="proj-${p.id}"]`);
-    if(btn) btn.addEventListener('click', ()=> openDetail(p.id));
+function setupEventListeners() {
+  // Filters
+  document.getElementById('searchInput')?.addEventListener('input', applyFilters);
+  document.getElementById('bedroomsFilter')?.addEventListener('change', applyFilters);
+  document.getElementById('sortSelect')?.addEventListener('change', applyFilters);
+
+  // Modal interactions
+  const modal = document.getElementById('detailModal');
+  modal?.addEventListener('click', (e) => {
+    if (e.target.id === 'detailModal') closeModal();
   });
+  document.querySelector('.modal-close')?.addEventListener('click', closeModal);
 }
 
-function renderImoveis(list){
+
+// --- Data Handling ---
+async function fetchAndRenderData() {
+  const projetosGrid = document.getElementById('projetosGrid');
+  const imoveisGrid = document.getElementById('imoveisGrid');
+
+  try {
+    const response = await fetch(imoveisUrl);
+    if (!response.ok) throw new Error(`HTTP error! Status: ${response.status}`);
+    
+    allData = await response.json();
+    
+    // Render initial content
+    renderProjetos(allData.filter(item => item.type === 'projeto'));
+    renderImoveis(allData.filter(item => item.type === 'imovel'));
+
+  } catch (error) {
+    console.error("Failed to fetch or render data:", error);
+    if (projetosGrid) projetosGrid.innerHTML = '<p class="error-message">Não foi possível carregar os projetos.</p>';
+    if (imoveisGrid) imoveisGrid.innerHTML = '<p class="error-message">Não foi possível carregar os imóveis.</p>';
+  } finally {
+    projetosGrid?.classList.remove('loading');
+    imoveisGrid?.classList.remove('loading');
+  }
+}
+
+
+// --- Rendering Functions ---
+function renderProjetos(projetos) {
+  const grid = document.getElementById('projetosGrid');
+  if (!grid) return;
+  
+  if (projetos.length === 0) {
+    grid.innerHTML = '<p class="muted">Nenhum projeto encontrado.</p>';
+    return;
+  }
+  
+  grid.innerHTML = projetos.map(p => projectCardHtml(p)).join('');
+  attachClickListeners(grid, 'proj-');
+}
+
+function renderImoveis(imoveis) {
   const grid = document.getElementById('imoveisGrid');
-  if(list.length === 0){
+  if (!grid) return;
+
+  if (imoveis.length === 0) {
     grid.innerHTML = '<p class="muted">Nenhum imóvel encontrado com os filtros aplicados.</p>';
     return;
   }
-  grid.innerHTML = list.map(i => imovelCardHtml(i)).join('');
-  // attach listeners
-  list.forEach(i => {
-    const btn = document.querySelector(`[data-id="imv-${i.id}"]`);
-    if(btn) btn.addEventListener('click', ()=> openDetail(i.id));
-  });
+  
+  grid.innerHTML = imoveis.map(i => imovelCardHtml(i)).join('');
+  attachClickListeners(grid, 'imv-');
 }
 
-function projectCardHtml(p){
-  const img = p.images && p.images[0] ? p.images[0] : 'https://images.unsplash.com/photo-1560448204-e02f11c3d0e2?q=80&w=1200&auto=format&fit=crop&ixlib=rb-4.0.3&s=placeholder';
+
+// --- HTML Templates ---
+const escapeHtml = (str) => String(str || '').replace(/[&<>"']/g, m => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[m]));
+const formatPrice = (v) => Number(v).toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' });
+const placeholderImage = 'https://images.unsplash.com/photo-1512917774080-9991f1c4c750?q=80&w=1400&auto=format&fit=crop';
+
+function projectCardHtml(p) {
+  const img = p.images?.[0] || placeholderImage;
   return `
     <article class="card">
-      <img src="${img}" alt="${escapeHtml(p.title)}" />
-      <h4>${escapeHtml(p.title)}</h4>
-      <p class="muted">${escapeHtml(p.summary || '')}</p>
-      <div style="margin-top:0.75rem">
-        <button class="btn" data-id="proj-${p.id}">Ver projeto</button>
+      <img src="${img}" alt="${escapeHtml(p.title)}" class="card-image" loading="lazy" />
+      <div class="card-content">
+        <h3 class="card-title">${escapeHtml(p.title)}</h3>
+        <p class="card-details">${escapeHtml(p.summary)}</p>
+        <div class="card-actions">
+            <button class="btn btn-secondary" data-id="proj-${p.id}">Ver Projeto</button>
+        </div>
       </div>
     </article>
   `;
 }
 
-function imovelCardHtml(i){
-  const img = i.images && i.images[0] ? i.images[0] : 'https://images.unsplash.com/photo-1598899134739-0e8efc3f6a8c?q=80&w=1200&auto=format&fit=crop&ixlib=rb-4.0.3&s=placeholder';
+function imovelCardHtml(i) {
+  const img = i.images?.[0] || placeholderImage;
   return `
     <article class="card">
-      <img src="${img}" alt="${escapeHtml(i.title)}" />
-      <h4>${escapeHtml(i.title)}</h4>
-      <p class="muted">${i.bairro} • ${i.area} m² • ${i.bedrooms} dorm</p>
-      <p style="margin-top:0.5rem; font-weight:700">R$ ${formatPrice(i.price)}</p>
-      <div style="margin-top:0.75rem; display:flex; gap:0.5rem">
-        <button class="btn" data-id="imv-${i.id}">Ver detalhes</button>
-        <a class="btn btn-ghost" target="_blank" href="https://wa.me/5516999999999?text=Tenho%20interesse%20no%20im%C3%B3vel%20${encodeURIComponent(i.title)}">WhatsApp</a>
+      <img src="${img}" alt="${escapeHtml(i.title)}" class="card-image" loading="lazy" />
+      <div class="card-content">
+        <h3 class="card-title">${escapeHtml(i.title)}</h3>
+        <p class="card-details">${i.bairro} • ${i.area} m² • ${i.bedrooms} dormitório(s)</p>
+        <p class="card-price">${formatPrice(i.price)}</p>
+        <div class="card-actions">
+          <button class="btn btn-primary" data-id="imv-${i.id}">Detalhes</button>
+          <a class="btn btn-secondary" target="_blank" href="https://wa.me/5516999999999?text=Tenho%20interesse%20no%20im%C3%B3vel:%20${encodeURIComponent(i.title)}">WhatsApp</a>
+        </div>
       </div>
     </article>
   `;
 }
 
-function openDetail(id){
-  const item = imoveis.find(x => x.id === id);
-  if(!item) return;
-  const modal = document.getElementById('detailModal');
-  const container = document.getElementById('modalContent');
-  container.innerHTML = detailHtml(item);
-  modal.setAttribute('aria-hidden', 'false');
-  // attach gallery click (simple)
-  const imgs = container.querySelectorAll('.detail-img');
-  imgs.forEach(img => {
-    img.addEventListener('click', (e) => {
-      openImageLightbox(e.target.src);
-    });
+
+// --- Event Handling & Logic ---
+function attachClickListeners(grid, prefix) {
+  grid.addEventListener('click', (e) => {
+    const button = e.target.closest(`[data-id^="${prefix}"]`);
+    if (button) {
+      const id = button.dataset.id.replace(prefix, '');
+      openDetail(id);
+    }
   });
 }
 
-function closeModal(){
-  const modal = document.getElementById('detailModal');
-  modal.setAttribute('aria-hidden', 'true');
-  document.getElementById('modalContent').innerHTML = '';
-}
-
-function detailHtml(item){
-  const imgs = (item.images || []).map(src => `<img class="detail-img" src="${src}" alt="${escapeHtml(item.title)}" style="width:100%; margin-bottom:0.5rem; border-radius:8px; cursor:pointer;"/>`).join('');
-  return `
-    <div>
-      <h2>${escapeHtml(item.title)}</h2>
-      <p class="muted">${escapeHtml(item.bairro)} • ${item.area} m² • ${item.bedrooms} dorm</p>
-      <p style="font-weight:700; margin-top:0.5rem">R$ ${formatPrice(item.price)}</p>
-      <div style="margin-top:1rem">${imgs}</div>
-      <h4>Descrição</h4>
-      <p class="muted">${escapeHtml(item.description || '')}</p>
-      <div style="margin-top:1rem; display:flex; gap:0.5rem">
-        <a class="btn" target="_blank" href="https://wa.me/5516999999999?text=Tenho%20interesse%20no%20im%C3%B3vel%20${encodeURIComponent(item.title)}">Agendar via WhatsApp</a>
-        <button class="btn btn-ghost" onclick="closeModal()">Fechar</button>
-      </div>
-    </div>
-  `;
-}
-
-function openImageLightbox(src){
-  const light = document.createElement('div');
-  light.style.position='fixed'; light.style.inset=0; light.style.background='rgba(0,0,0,0.9)'; light.style.display='flex';
-  light.style.alignItems='center'; light.style.justifyContent='center'; light.style.zIndex=9999;
-  const img = document.createElement('img'); img.src=src; img.style.maxWidth='95%'; img.style.maxHeight='95%'; img.style.boxShadow='0 12px 40px rgba(0,0,0,0.6)';
-  light.appendChild(img);
-  light.addEventListener('click', ()=> document.body.removeChild(light));
-  document.body.appendChild(light);
-}
-
-function applyFilters(){
-  const q = document.getElementById('searchInput').value.trim().toLowerCase();
-  const beds = document.getElementById('bedroomsFilter').value;
+function applyFilters() {
+  const query = document.getElementById('searchInput').value.trim().toLowerCase();
+  const bedrooms = parseInt(document.getElementById('bedroomsFilter').value, 10) || 0;
   const sort = document.getElementById('sortSelect').value;
 
-  let results = imoveis.filter(i => i.type === 'imovel');
+  let results = allData.filter(i => i.type === 'imovel');
 
-  if(q){
-    results = results.filter(i => {
-      return (i.title + ' ' + i.bairro + ' ' + (i.description||'')).toLowerCase().includes(q);
-    });
+  if (query) {
+    results = results.filter(i => 
+      (i.title + ' ' + i.bairro + ' ' + (i.description || '')).toLowerCase().includes(query)
+    );
   }
-  if(beds){
-    const b = parseInt(beds,10);
-    results = results.filter(i => i.bedrooms >= b);
+  if (bedrooms > 0) {
+    results = results.filter(i => i.bedrooms >= bedrooms);
   }
 
-  if(sort === 'price-asc') results.sort((a,b)=>a.price-b.price);
-  if(sort === 'price-desc') results.sort((a,b)=>b.price-a.price);
-  if(sort === 'area-desc') results.sort((a,b)=>b.area-b.area);
+  // Sorting logic
+  const sortFunctions = {
+    'price-asc': (a, b) => a.price - b.price,
+    'price-desc': (a, b) => b.price - a.price,
+    'area-desc': (a, b) => b.area - a.area,
+  };
+  if (sortFunctions[sort]) {
+    results.sort(sortFunctions[sort]);
+  }
 
   renderImoveis(results);
 }
 
-function formatPrice(v){
-  return Number(v).toLocaleString('pt-BR');
+
+// --- Modal Functions ---
+function openDetail(id) {
+  const item = allData.find(x => x.id === id);
+  if (!item) return;
+
+  const modal = document.getElementById('detailModal');
+  const content = document.getElementById('modalContent');
+  if (!modal || !content) return;
+  
+  // TODO: Build a professional detail view template
+  content.innerHTML = `
+    <h2>${escapeHtml(item.title)}</h2>
+    <p>${escapeHtml(item.description)}</p>
+    `;
+
+  modal.setAttribute('aria-hidden', 'false');
+  document.body.style.overflow = 'hidden'; // Prevent background scrolling
 }
 
-function escapeHtml(str){
-  if(!str) return '';
-  return String(str).replace(/[&<>"']/g, function(m){ return {'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[m];});
+function closeModal() {
+  const modal = document.getElementById('detailModal');
+  if (!modal) return;
+  
+  modal.setAttribute('aria-hidden', 'true');
+  document.body.style.overflow = '';
 }
