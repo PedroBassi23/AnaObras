@@ -3,21 +3,35 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width,initial-scale=1" />
-  <title>Portfólio de Reformas & Imóveis</title>
-  <meta name="description" content="Portfólio de reformas e vitrine de imóveis. Veja projetos, compare e agende visitas via WhatsApp." />
+  
+  <title>Nome da Sua Empresa | Reformas e Imóveis de Alto Padrão</title>
+  <meta name="description" content="Especialistas em reformas que transformam espaços. Encontre imóveis selecionados e prontos para morar." />
+  
+  <meta property="og:title" content="Nome da Sua Empresa | Reformas e Imóveis" />
+  <meta property="og:description" content="Especialistas em reformas que transformam espaços. Encontre imóveis selecionados e prontos para morar." />
+  <meta property="og:image" content="https://images.unsplash.com/photo-1560448204-e02f11c3d0e2?q=80&w=1200&auto=format&fit=crop" />
+  <meta property="og:type" content="website" />
+  <meta property="og:url" content="https://seusite.com.br" />
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;600;700;800&display=swap" rel="stylesheet">
+  
   <link rel="stylesheet" href="styles.css" />
   <link rel="icon" href="data:;base64,iVBORw0KGgo=">
 </head>
 <body>
   <header class="site-header">
     <div class="container header-inner">
-      <h1 class="brand">Portfólio de Reformas & Imóveis</h1>
-      <nav class="nav">
+      <a href="#" class="brand" aria-label="Página inicial">
+        <strong>Sua Marca</strong>
+      </a>
+      <nav class="nav" aria-label="Navegação principal">
         <a href="#projetos" class="nav-link">Projetos</a>
         <a href="#imoveis" class="nav-link">Imóveis</a>
         <a href="#contato" class="nav-link">Contato</a>
       </nav>
-      <a class="whatsapp-btn" id="whatsappBtn" href="#" target="_blank" rel="noopener">WhatsApp</a>
+      <a class="whatsapp-btn" id="whatsappBtn" href="#" target="_blank" rel="noopener">Fale Conosco</a>
     </div>
   </header>
 
@@ -25,16 +39,16 @@
     <section class="hero">
       <div class="container">
         <div class="hero-grid">
-          <div>
-            <h2>Transformamos espaços. Vendemos lares.</h2>
-            <p class="lead">Veja nossos projetos de reforma e encontre imóveis prontos para morar — tudo com visual limpo, fotos antes/depois e agendamento direto.</p>
+          <div class="hero-content">
+            <h1 class="hero-title">Transformamos espaços. Realizamos sonhos.</h1>
+            <p class="lead">Projetos de reforma com execução impecável e uma seleção exclusiva de imóveis prontos para você. Qualidade e confiança em cada detalhe.</p>
             <div class="hero-ctas">
-              <a href="#projetos" class="btn">Ver Projetos</a>
-              <a href="#imoveis" class="btn btn-ghost">Ver Imóveis</a>
+              <a href="#projetos" class="btn btn-primary">Nossos Projetos</a>
+              <a href="#imoveis" class="btn btn-secondary">Ver Imóveis</a>
             </div>
           </div>
           <div class="hero-image">
-            <img src="https://images.unsplash.com/photo-1560448204-e02f11c3d0e2?q=80&w=1200&auto=format&fit=crop&ixlib=rb-4.0.3&s=placeholder" alt="Reforma moderna" />
+            <img src="https://images.unsplash.com/photo-1560448204-e02f11c3d0e2?q=80&w=1200&auto=format&fit=crop" alt="Sala de estar moderna e bem decorada, refletindo um projeto de reforma de alta qualidade." loading="lazy" />
           </div>
         </div>
       </div>
@@ -42,82 +56,100 @@
 
     <section id="projetos" class="section">
       <div class="container">
-        <h3>Projetos de Reformas (Antes / Depois)</h3>
-        <p class="muted">Casos selecionados para mostrar nosso trabalho — clique para ver detalhes.</p>
-        <div id="projetosGrid" class="grid"></div>
+        <div class="section-header">
+          <h2>Projetos de Reforma</h2>
+          <p class="muted">Nosso portfólio de transformações. Veja o antes e depois e inspire-se.</p>
+        </div>
+        <div id="projetosGrid" class="grid loading">
+          </div>
       </div>
     </section>
 
-    <section id="imoveis" class="section">
+    <section id="imoveis" class="section section-highlight">
       <div class="container">
-        <h3>Imóveis à Venda</h3>
+        <div class="section-header">
+          <h2>Imóveis à Venda</h2>
+          <p class="muted">Imóveis selecionados que combinam localização, conforto e potencial de valorização.</p>
+        </div>
         <div class="controls">
           <div class="filter">
-            <label>Buscar:</label>
-            <input id="searchInput" placeholder="bairro, tipo ou palavra-chave" />
+            <label for="searchInput">Buscar</label>
+            <input id="searchInput" placeholder="Bairro, rua, característica..." type="text" />
           </div>
           <div class="filter">
-            <label>Quartos</label>
-            <select id="bedroomsFilter">
+            <label for="bedroomsFilter">Dormitórios</label>
+            <select id="bedroomsFilter" aria-label="Filtrar por número de dormitórios">
               <option value="">Todos</option>
-              <option value="1">1+</option>
-              <option value="2">2+</option>
-              <option value="3">3+</option>
+              <option value="1">1 ou mais</option>
+              <option value="2">2 ou mais</option>
+              <option value="3">3 ou mais</option>
             </select>
           </div>
           <div class="filter">
-            <label>Ordenar</label>
-            <select id="sortSelect">
-              <option value="default">Padrão</option>
-              <option value="price-asc">Preço ↑</option>
-              <option value="price-desc">Preço ↓</option>
-              <option value="area-desc">Área ↓</option>
+            <label for="sortSelect">Ordenar por</label>
+            <select id="sortSelect" aria-label="Ordenar resultados">
+              <option value="default">Relevância</option>
+              <option value="price-asc">Menor Preço</option>
+              <option value="price-desc">Maior Preço</option>
+              <option value="area-desc">Maior Área</option>
             </select>
           </div>
         </div>
-
-        <div id="imoveisGrid" class="grid"></div>
+        <div id="imoveisGrid" class="grid loading">
+          </div>
       </div>
     </section>
 
-    <section id="contato" class="section contact-section">
+    <section id="contato" class="section">
       <div class="container">
-        <h3>Contato</h3>
-        <p class="muted">Agende uma visita ou peça um orçamento via WhatsApp ou formulário.</p>
+        <div class="section-header">
+            <h3>Fale Conosco</h3>
+            <p class="muted">Pronto para começar seu projeto ou agendar uma visita? Entre em contato.</p>
+        </div>
         <div class="contact-grid">
-          <form id="contactForm" action="https://formspree.io/f/maylpkjy" method="POST" class="contact-form">
-            <label>Nome</label>
-            <input name="name" required />
-            <label>Telefone ou WhatsApp</label>
-            <input name="phone" required />
-            <label>Mensagem</label>
-            <textarea name="message" rows="4" required></textarea>
-            <button class="btn" type="submit">Enviar</button>
+          <form id="contactForm" action="https://formspree.io/f/YOUR_UNIQUE_ID" method="POST" class="contact-form">
+            <div class="form-group">
+              <label for="form-name">Nome</label>
+              <input id="form-name" name="name" type="text" required />
+            </div>
+            <div class="form-group">
+              <label for="form-phone">Telefone / WhatsApp</label>
+              <input id="form-phone" name="phone" type="tel" required />
+            </div>
+            <div class="form-group">
+              <label for="form-message">Mensagem</label>
+              <textarea id="form-message" name="message" rows="4" required></textarea>
+            </div>
+            <button class="btn btn-primary" type="submit">Enviar Mensagem</button>
           </form>
           <div class="contact-info">
-            <h4>Fale conosco</h4>
-            <p>WhatsApp: <a id="whatsappLink" href="#" target="_blank" rel="noopener">Enviar mensagem</a></p>
-            <p>Endereço: Rua Exemplo, 123 — Bairro X, Sua Cidade</p>
-            <p>Horário: Seg–Sex 09:00–18:00</p>
-            <h4>Depoimentos</h4>
-            <blockquote class="testimonial">"Excelente trabalho — reforma entregue no prazo e com cuidado nos detalhes." — Cliente Satisfeito</blockquote>
+            <h4>Informações de Contato</h4>
+            <address>
+                Rua Exemplo, 123 — Bairro X<br>
+                Sua Cidade, SP<br><br>
+                <strong>WhatsApp:</strong> <a id="whatsappLink" href="#" target="_blank" rel="noopener">Iniciar Conversa</a><br>
+                <strong>Email:</strong> <a href="mailto:contato@seusite.com.br">contato@seusite.com.br</a>
+            </address>
+            <div class="testimonial">
+                <blockquote>"A reforma foi entregue no prazo e superou todas as expectativas. Atenção incrível aos detalhes."</blockquote>
+                <cite>— Cliente Satisfeito</cite>
+            </div>
           </div>
         </div>
       </div>
     </section>
-
   </main>
 
   <footer class="site-footer">
-    <div class="container">
-      <p>© <span id="year"></span> Portfólio de Reformas & Imóveis — Desenvolvido como MVP estático.</p>
+    <div class="container footer-content">
+      <p>© <span id="year"></span> Nome da Sua Empresa. Todos os direitos reservados.</p>
+      <p class="small-text">Desenvolvido como um portfólio profissional.</p>
     </div>
   </footer>
 
-  <!-- Modal template for detail -->
-  <div id="detailModal" class="modal" aria-hidden="true">
+  <div id="detailModal" class="modal" aria-hidden="true" role="dialog" aria-modal="true">
     <div class="modal-dialog">
-      <button class="modal-close" aria-label="Fechar">×</button>
+      <button class="modal-close" aria-label="Fechar Janela de Detalhes">×</button>
       <div id="modalContent"></div>
     </div>
   </div>
